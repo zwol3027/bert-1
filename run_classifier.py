@@ -691,7 +691,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
         recall = tf.metrics.recall(labels=label_ids, predictions=predictions, weights=is_real_example)
         f = tf.contrib.metrics.f1_score(labels=label_ids, predictions=predictions, weights=is_real_example)
         # f_sklearn = sklearn.metrics.accuracy_score(y_true=label_ids, y_pred=predictions)
-        print(len(predictions),len(label_ids))
+        print(len(predictions), len(label_ids))
 
         return {
             "eval_accuracy": accuracy,
