@@ -696,7 +696,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
             "eval_loss": loss,
             "eval_precision": precision,
             "eval_recall": recall,
-            "eval_f": f
+            "eval_f": f,
             "eval_f_sklearn": f_sklearn
 
         }
