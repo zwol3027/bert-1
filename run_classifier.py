@@ -683,20 +683,23 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
     elif mode == tf.estimator.ModeKeys.EVAL:
 
       def metric_fn(per_example_loss, label_ids, logits, is_real_example):
-        predictions = tf.argmax(logits, axis=-1, output_type=tf.int32)
-        accuracy = tf.metrics.accuracy(
-            labels=label_ids, predictions=predictions, weights=is_real_example)
-        loss = tf.metrics.mean(values=per_example_loss, weights=is_real_example)
-        precision = tf.metrics.precision(labels=label_ids, predictions=predictions, weights=is_real_example)
-        recall = tf.metrics.recall(labels=label_ids, predictions=predictions, weights=is_real_example)
-        f = tf.contrib.metrics.f1_score(labels=label_ids, predictions=predictions, weights=is_real_example)
-        # f_sklearn = sklearn.metrics.accuracy_score(y_true=label_ids, y_pred=predictions)
-        # f_2 = 2 * (precision * recall) / (precision + recall)
-        print(type(precision),type(recall))
-        # print(len(label_ids.eval()))
-        print(precision)
-        print(recall)
-        print(type(tf.Session().run(label_ids)))
+        with tf.Session() as sess:
+            sess.run(tf.global_variables_initializer())
+
+            predictions = tf.argmax(logits, axis=-1, output_type=tf.int32)
+            accuracy = tf.metrics.accuracy(
+                labels=label_ids, predictions=predictions, weights=is_real_example)
+            loss = tf.metrics.mean(values=per_example_loss, weights=is_real_example)
+            precision = tf.metrics.precision(labels=label_ids, predictions=predictions, weights=is_real_example)
+            recall = tf.metrics.recall(labels=label_ids, predictions=predictions, weights=is_real_example)
+            f = tf.contrib.metrics.f1_score(labels=label_ids, predictions=predictions, weights=is_real_example)
+            # f_sklearn = sklearn.metrics.accuracy_score(y_true=label_ids, y_pred=predictions)
+            # f_2 = 2 * (precision * recall) / (precision + recall)
+            print(type(precision),type(recall))
+            # print(len(label_ids.eval()))
+            print(precision)
+            print(recall)
+            # print(type(tf.Session().run(label_ids)))
 
 
 
