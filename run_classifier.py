@@ -693,8 +693,8 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
         # f_sklearn = sklearn.metrics.accuracy_score(y_true=label_ids, y_pred=predictions)
         # f_2 = 2 * (precision * recall) / (precision + recall)
         print(type(precision),type(recall))
-        print(len(label_ids.eval()))
-
+        # print(len(label_ids.eval()))
+        print(precision)
 
         return {
             "eval_accuracy": accuracy,
