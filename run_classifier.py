@@ -702,6 +702,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
         print(recall)
         # print(type(tf.Session().run(label_ids)))
 
+
         return {
             "eval_accuracy": accuracy,
             "eval_loss": loss,
