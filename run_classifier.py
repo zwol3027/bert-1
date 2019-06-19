@@ -690,6 +690,10 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
         precision = tf.metrics.precision(labels=label_ids, predictions=predictions, weights=is_real_example)
         recall = tf.metrics.recall(labels=label_ids, predictions=predictions, weights=is_real_example)
         f = tf.contrib.metrics.f1_score(labels=label_ids, predictions=predictions, weights=is_real_example)
+        FN = tf.metrics.false_negatives(labels=label_ids, predictions=predictions, weights=is_real_example)
+        TN = tf.metrics.true_negatives(labels=label_ids, predictions=predictions, weights=is_real_example)
+        FP = tf.metrics.false_positives(labels=label_ids, predictions=predictions, weights=is_real_example)
+        TP = tf.metrics.true_positives(labels=label_ids, predictions=predictions, weights=is_real_example)
         # f_sklearn = sklearn.metrics.accuracy_score(y_true=label_ids, y_pred=predictions)
         # f_2 = 2 * (precision * recall) / (precision + recall)
         print(type(precision), type(recall))
@@ -698,14 +702,16 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
         print(recall)
         # print(type(tf.Session().run(label_ids)))
 
-
-
         return {
             "eval_accuracy": accuracy,
             "eval_loss": loss,
             "eval_precision": precision,
             "eval_recall": recall,
-            "eval_f": f
+            "eval_f1": f,
+            "eval_false_negatives": FN,
+            "eval_false_positives": FP,
+            "eval_true_negatives": TN,
+            "eval_true_positives": TP
 
         }
 
