@@ -128,6 +128,7 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
         TN = tf.metrics.true_negatives(labels=label_ids, predictions=predictions)
         FP = tf.metrics.false_positives(labels=label_ids, predictions=predictions)
         TP = tf.metrics.true_positives(labels=label_ids, predictions=predictions)
+
         return {
             "eval_accuracy": accuracy,
             "eval_loss": loss,
