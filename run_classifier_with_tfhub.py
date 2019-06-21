@@ -121,9 +121,23 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
         predictions = tf.argmax(logits, axis=-1, output_type=tf.int32)
         accuracy = tf.metrics.accuracy(label_ids, predictions)
         loss = tf.metrics.mean(per_example_loss)
+        precision = tf.metrics.precision(labels=label_ids, predictions=predictions)
+        recall = tf.metrics.recall(labels=label_ids, predictions=predictions)
+        f = tf.contrib.metrics.f1_score(labels=label_ids, predictions=predictions)
+        FN = tf.metrics.false_negatives(labels=label_ids, predictions=predictions)
+        TN = tf.metrics.true_negatives(labels=label_ids, predictions=predictions)
+        FP = tf.metrics.false_positives(labels=label_ids, predictions=predictions)
+        TP = tf.metrics.true_positives(labels=label_ids, predictions=predictions)
         return {
             "eval_accuracy": accuracy,
             "eval_loss": loss,
+            "eval_precision": precision,
+            "eval_recall": recall,
+            "eval_f1": f,
+            "eval_false_negatives": FN,
+            "eval_false_positives": FP,
+            "eval_true_negatives": TN,
+            "eval_true_positives": TP
         }
 
       eval_metrics = (metric_fn, [per_example_loss, label_ids, logits])
